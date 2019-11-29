@@ -1,0 +1,11 @@
+[package]
+name = "dwemthys"
+version = "0.1.0"
+authors = ["Andrew Kotov <ak@atuko.ru>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tcod = { git = "https://github.com/tomassedovic/tcod-rs.git" }
+rand = "0.7.2"
