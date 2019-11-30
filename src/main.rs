@@ -4,13 +4,19 @@ use dwemthys::character::Character;
 use dwemthys::game::Game;
 use dwemthys::npc::NPC;
 use dwemthys::traits::Updates;
+use dwemthys::movement::RandomMovementComponent;
 use tcod::input::KeyCode::{Escape};
 
 fn main() {
     let mut game = Game::new();
     let mut ch = Character::new(40, 25, '@');
-    let dog = Box::new(NPC::new(10, 10, 'd'));
-    let cat = Box::new(NPC::new(40, 25, 'c'));
+
+    let cmc = Box::new(RandomMovementComponent{window_bound: game.window_bound});
+    let dmc = Box::new(RandomMovementComponent{window_bound: game.window_bound});
+
+    let dog = Box::new(NPC::new(10, 10, 'd', dmc));
+    let cat = Box::new(NPC::new(40, 25, 'c', cmc));
+
     let mut npcs: Vec<Box<dyn Updates>> = vec![dog, cat];
 
     game.render(&npcs, ch);

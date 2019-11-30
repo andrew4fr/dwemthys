@@ -3,7 +3,7 @@ use crate::util::Point;
 use tcod::input::Key;
 
 pub trait Updates {
-    fn update(&mut self, game: &Game);
+    fn update(&mut self);
     fn render(&self, game: &mut Game);
 }
 

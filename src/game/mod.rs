@@ -39,7 +39,7 @@ impl Game {
 
     pub fn update(&self, npcs: &mut Vec<Box<dyn Updates>>, c: &mut Character, code: KeyCode) {
         c.update(code, self);
-        npcs.iter_mut().for_each(|e| e.update(self));
+        npcs.iter_mut().for_each(|e| e.update());
     }
 
     pub fn wait_for_keypress(&mut self) -> Key {
