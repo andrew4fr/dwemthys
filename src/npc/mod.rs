@@ -2,7 +2,6 @@ use crate::game::Game;
 use crate::traits::Updates;
 use crate::util::Contains::{DoesContain, DoesNotContain};
 use crate::util::Point;
-use crate::traits::RenderingComponent;
 use rand::prelude::*;
 
 pub struct NPC {

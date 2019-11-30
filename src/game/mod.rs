@@ -18,7 +18,7 @@ impl Game {
             max: Point { x: 79, y: 49 }
         };
         let con = RootConsole::initializer()
-            .size(bound.max.x, bound.max.y)
+            .size(bound.max.x + 1, bound.max.y + 1)
             .title("Rogalik")
             .init();
 
@@ -33,12 +33,12 @@ impl Game {
     pub fn render(&mut self, npcs: &Vec<Box<dyn Updates>>, c: Character) {
         self.rc.before_render_new_frame();
         npcs.iter().for_each(|e| e.render(self));
-//        c.render(self.rc);
+        c.render(self);
         self.rc.after_render_new_frame();
     }
 
     pub fn update(&self, npcs: &mut Vec<Box<dyn Updates>>, c: &mut Character, code: KeyCode) {
-//        c.update(code, &self);
+        c.update(code, self);
         npcs.iter_mut().for_each(|e| e.update(self));
     }
 

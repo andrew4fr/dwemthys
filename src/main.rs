@@ -1,16 +1,10 @@
 extern crate dwemthys;
 
-use tcod::input::KeyCode;
-use tcod::input::KeyCode::Escape;
-use tcod::RootConsole;
-
-use dwemthys::util::{Bound, Point};
-
 use dwemthys::character::Character;
 use dwemthys::game::Game;
 use dwemthys::npc::NPC;
-use dwemthys::traits::{Updates, RenderingComponent};
-use dwemthys::rendering::TcodRenderingComponent;
+use dwemthys::traits::Updates;
+use tcod::input::KeyCode::{Escape};
 
 fn main() {
     let mut game = Game::new();

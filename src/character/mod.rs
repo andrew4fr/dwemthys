@@ -1,7 +1,6 @@
 use crate::game::Game;
 use crate::util::Contains::{DoesContain, DoesNotContain};
 use crate::util::Point;
-use crate::traits::RenderingComponent;
 use tcod::input::KeyCode;
 use tcod::input::KeyCode::{Down, Left, Right, Up};
 
@@ -43,7 +42,7 @@ impl Character {
         }
     }
 
-    pub fn render(&self, mut rc: Box<dyn RenderingComponent>) {
-        rc.render_object(self.pos, self.display_char);
+    pub fn render(&self, game: &mut Game) {
+        game.rc.render_object(self.pos, self.display_char);
     }
 }
