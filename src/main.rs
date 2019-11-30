@@ -13,14 +13,14 @@ use dwemthys::traits::{Updates, RenderingComponent};
 use dwemthys::rendering::TcodRenderingComponent;
 
 fn main() {
-    let mut game = Game:new();
+    let mut game = Game::new();
     let mut ch = Character::new(40, 25, '@');
     let dog = Box::new(NPC::new(10, 10, 'd'));
     let cat = Box::new(NPC::new(40, 25, 'c'));
     let mut npcs: Vec<Box<dyn Updates>> = vec![dog, cat];
 
-    game.render(&mut rc, &npcs, ch);
-    while !(game.rc.console.window_closed() || game.exit) {
+    game.render(&npcs, ch);
+    while !game.exit {
         let keypress = game.wait_for_keypress();
 
         if keypress.pressed {
@@ -30,7 +30,7 @@ fn main() {
             }
         }
 
-        game.update(&mut npcs, &mut ch, keypress.code, game);
-        game.render(&mut rc, &npcs, ch);
+        game.update(&mut npcs, &mut ch, keypress.code);
+        game.render(&npcs, ch);
     }
 }

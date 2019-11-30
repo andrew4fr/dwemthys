@@ -8,12 +8,6 @@ pub struct TcodRenderingComponent {
 }
 
 impl RenderingComponent for TcodRenderingComponent {
-    fn new(console: RootConsole) -> Self {
-        TcodRenderingComponent {
-            console: console
-        }
-    }
-
     fn before_render_new_frame(&mut self) {
         self.console.clear();
     }

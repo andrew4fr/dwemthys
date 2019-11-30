@@ -2,7 +2,6 @@ use crate::game::Game;
 use crate::traits::Updates;
 use crate::util::Contains::{DoesContain, DoesNotContain};
 use crate::util::Point;
-use crate::rendering::TcodRenderingComponent;
 use crate::traits::RenderingComponent;
 use rand::prelude::*;
 
@@ -21,7 +20,7 @@ impl NPC {
 }
 
 impl Updates for NPC {
-    fn update(&mut self, game: Game) {
+    fn update(&mut self, game: &Game) {
         let mut rng = rand::thread_rng();
         let offset_x = rng.gen_range(0, 3i32) - 1;
         match game.window_bound.contains(self.pos.offset_x(offset_x)) {
@@ -36,7 +35,7 @@ impl Updates for NPC {
         }
     }
 
-    fn render(&self, rc: &mut TcodRenderingComponent) {
-        rc.render_object(self.pos, self.display_char);
+    fn render(&self, game: &mut Game) {
+        game.rc.render_object(self.pos, self.display_char);
     }
 }

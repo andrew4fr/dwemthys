@@ -1,7 +1,6 @@
 use crate::game::Game;
 use crate::util::Contains::{DoesContain, DoesNotContain};
 use crate::util::Point;
-use crate::rendering::TcodRenderingComponent;
 use crate::traits::RenderingComponent;
 use tcod::input::KeyCode;
 use tcod::input::KeyCode::{Down, Left, Right, Up};
@@ -21,7 +20,7 @@ impl Character {
         }
     }
 
-    pub fn update(&mut self, code: KeyCode, game: Game) {
+    pub fn update(&mut self, code: KeyCode, game: &Game) {
         let mut offset = Point { x: 0, y: 0 };
         match code {
             Up => {
@@ -44,7 +43,7 @@ impl Character {
         }
     }
 
-    pub fn render(&self, rc: &mut TcodRenderingComponent) {
+    pub fn render(&self, mut rc: Box<dyn RenderingComponent>) {
         rc.render_object(self.pos, self.display_char);
     }
 }
