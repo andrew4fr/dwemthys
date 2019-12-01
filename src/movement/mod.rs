@@ -1,6 +1,6 @@
 use crate::game::Game;
 use crate::util::Contains::{DoesContain, DoesNotContain};
-use crate::util::{Bound, Point};
+use crate::util::{Bound, Point, XPointRelation, YPointRelation, PointEquality};
 use rand::prelude::*;
 use tcod::input::KeyCode::{Down, Left, Right, Up};
 
@@ -13,6 +13,10 @@ pub struct RandomMovementComponent {
 }
 
 pub struct TcodUserMovementComponent {
+    pub window_bound: Bound,
+}
+
+pub struct AggroMovementComponent {
     pub window_bound: Bound,
 }
 
@@ -58,6 +62,35 @@ impl MovementComponent for TcodUserMovementComponent {
         match self.window_bound.contains(offset) {
             DoesContain => offset,
             DoesNotContain => p,
+        }
+    }
+}
+
+impl MovementComponent for AggroMovementComponent {
+    fn update(&self, p: Point) -> Point {
+        let char_pos = Game::get_character_point();
+        let mut offset = Point{ x: 0, y: 0 };
+
+        match p.compare_x(char_pos) {
+            XPointRelation::RightOfPoint => offset = offset.offset_x(-1),
+            XPointRelation::LeftOfPoint => offset = offset.offset_x(1),
+            XPointRelation::OnPointX => {},
+        }
+
+        match p.compare_y(char_pos) {
+            YPointRelation::BelowPoint => offset = offset.offset_y(-1),
+            YPointRelation::AbovePoint => offset = offset.offset_y(1),
+            YPointRelation::OnPointY => {},
+        }
+
+        match p.offset(offset).compare(char_pos) {
+            PointEquality::PointsEqual => return p,
+            PointEquality::PointsNotEqual => {
+                match self.window_bound.contains(p.offset(offset)) {
+                    DoesContain => { return p.offset(offset); },
+                    DoesNotContain => { return p; },
+                }
+            }
         }
     }
 }

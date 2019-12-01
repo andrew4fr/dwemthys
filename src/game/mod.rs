@@ -5,6 +5,7 @@ use tcod::input::Key;
 use tcod::RootConsole;
 
 static mut LAST_KEYPRESS: Option<Key> = None;
+static mut CHAR_LOCATION: Point = Point{ x: 40, y: 25 };
 
 pub struct Game {
     pub exit: bool,
@@ -40,6 +41,7 @@ impl Game {
 
     pub fn update(&self, npcs: &mut Vec<Box<Actor>>, a: &mut Actor) {
         a.update();
+        Game::set_character_point(a.pos);
         npcs.iter_mut().for_each(|e| e.update());
     }
 
@@ -56,5 +58,13 @@ impl Game {
 
     pub fn set_last_keypress(key: Key) {
         unsafe { LAST_KEYPRESS = Some(key); }
+    }
+
+    pub fn get_character_point() -> Point {
+        unsafe { CHAR_LOCATION }
+    }
+
+    pub fn set_character_point(p: Point) {
+        unsafe { CHAR_LOCATION = p; }
     }
 }
