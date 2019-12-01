@@ -1,7 +1,6 @@
 use crate::util::{Bound, Point};
-use crate::traits::{Updates, RenderingComponent};
-use crate::rendering::TcodRenderingComponent;
-use crate::character::Character;
+use crate::rendering::{RenderingComponent, TcodRenderingComponent};
+use crate::actor::Actor;
 use tcod::input::Key;
 use tcod::RootConsole;
 
@@ -32,15 +31,15 @@ impl Game {
         }
     }
 
-    pub fn render(&mut self, npcs: &Vec<Box<dyn Updates>>, c: &Character) {
+    pub fn render(&mut self, npcs: &Vec<Box<Actor>>, a: &Actor) {
         self.rc.before_render_new_frame();
         npcs.iter().for_each(|e| e.render(self));
-        c.render(self);
+        a.render(self);
         self.rc.after_render_new_frame();
     }
 
-    pub fn update(&self, npcs: &mut Vec<Box<dyn Updates>>, c: &mut Character) {
-        c.update();
+    pub fn update(&self, npcs: &mut Vec<Box<Actor>>, a: &mut Actor) {
+        a.update();
         npcs.iter_mut().for_each(|e| e.update());
     }
 
