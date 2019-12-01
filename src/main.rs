@@ -7,12 +7,12 @@ use tcod::input::KeyCode::{Escape};
 fn main() {
     let mut game = Game::new();
 
-    let mut ch = Actor::heroine(game.window_bound);
+    let mut ch = Actor::heroine(game.map_window.get_bound());
 
     let mut npcs: Vec<Box<Actor>> = vec![
-        Box::new(Actor::dog(10, 10, game.window_bound)),
-        Box::new(Actor::cat(40, 25, game.window_bound)),
-        Box::new(Actor::kobold(20, 20, game.window_bound)),
+        Box::new(Actor::dog(10, 10, game.map_window.get_bound())),
+        Box::new(Actor::cat(40, 25, game.map_window.get_bound())),
+        Box::new(Actor::kobold(20, 20, game.map_window.get_bound())),
     ];
 
     game.render(&npcs, &ch);
