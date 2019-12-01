@@ -1,45 +1,25 @@
 use crate::game::Game;
-use crate::util::Contains::{DoesContain, DoesNotContain};
 use crate::util::Point;
-use tcod::input::KeyCode;
-use tcod::input::KeyCode::{Down, Left, Right, Up};
+use crate::movement::MovementComponent;
 
 
-#[derive(Copy, Clone)]
 pub struct Character {
     pub pos: Point,
     pub display_char: char,
+    pub mc: Box<dyn MovementComponent>,
 }
 
 impl Character {
-    pub fn new(x: i32, y: i32, dc: char) -> Self {
+    pub fn new(x: i32, y: i32, dc: char, mc: Box<dyn MovementComponent>) -> Self {
         Character {
             pos: Point { x: x, y: y },
             display_char: dc,
+            mc: mc,
         }
     }
 
-    pub fn update(&mut self, code: KeyCode, game: &Game) {
-        let mut offset = Point { x: 0, y: 0 };
-        match code {
-            Up => {
-                offset.y = -1;
-            }
-            Down => {
-                offset.y = 1;
-            }
-            Left => {
-                offset.x = -1;
-            }
-            Right => {
-                offset.x = 1;
-            }
-            _ => {}
-        }
-        match game.window_bound.contains(self.pos.offset(offset)) {
-            DoesContain => self.pos = self.pos.offset(offset),
-            DoesNotContain => {}
-        }
+    pub fn update(&mut self) {
+        self.pos = self.mc.update(self.pos);
     }
 
     pub fn render(&self, game: &mut Game) {

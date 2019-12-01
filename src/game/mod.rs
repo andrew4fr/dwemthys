@@ -2,8 +2,10 @@ use crate::util::{Bound, Point};
 use crate::traits::{Updates, RenderingComponent};
 use crate::rendering::TcodRenderingComponent;
 use crate::character::Character;
-use tcod::input::{KeyCode, Key};
+use tcod::input::Key;
 use tcod::RootConsole;
+
+static mut LAST_KEYPRESS: Option<Key> = None;
 
 pub struct Game {
     pub exit: bool,
@@ -30,19 +32,30 @@ impl Game {
         }
     }
 
-    pub fn render(&mut self, npcs: &Vec<Box<dyn Updates>>, c: Character) {
+    pub fn render(&mut self, npcs: &Vec<Box<dyn Updates>>, c: &Character) {
         self.rc.before_render_new_frame();
         npcs.iter().for_each(|e| e.render(self));
         c.render(self);
         self.rc.after_render_new_frame();
     }
 
-    pub fn update(&self, npcs: &mut Vec<Box<dyn Updates>>, c: &mut Character, code: KeyCode) {
-        c.update(code, self);
+    pub fn update(&self, npcs: &mut Vec<Box<dyn Updates>>, c: &mut Character) {
+        c.update();
         npcs.iter_mut().for_each(|e| e.update());
     }
 
     pub fn wait_for_keypress(&mut self) -> Key {
-        self.rc.wait_for_keypress()
+        let key = self.rc.wait_for_keypress();
+        Game::set_last_keypress(key);
+
+        key
+    }
+
+    pub fn get_last_keypress() -> Option<Key> {
+        unsafe { LAST_KEYPRESS }
+    }
+
+    pub fn set_last_keypress(key: Key) {
+        unsafe { LAST_KEYPRESS = Some(key); }
     }
 }
