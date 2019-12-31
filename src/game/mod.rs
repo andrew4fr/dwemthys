@@ -19,9 +19,13 @@ pub struct Game {
 impl Game {
     pub fn new() -> Self {
         let total_bound = Bound::new(0, 0, 99, 61);
+     //   let stat_bound = Bound::new(79, 0, 99, 49);
+     //   let input_bound = Bound::new(0, 50, 99, 52);
+     //   let message_bound = Bound::new(0, 53, 99, 61);
+     //   let map_bound = Bound::new(0, 0, 78, 49);
         let stat_bound = Bound::new(79, 0, 99, 49);
-        let input_bound = Bound::new(0, 50, 99, 52);
-        let message_bound = Bound::new(0, 53, 99, 61);
+        let input_bound = Bound::new(0, 50, 152, 52);
+        let message_bound = Bound::new(0, 53, 162, 61);
         let map_bound = Bound::new(0, 0, 78, 49);
 
         let rc = Box::new(TcodRenderingComponent::new(total_bound));
